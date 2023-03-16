@@ -1,0 +1,49 @@
+
+{% extends "layout.html" %} 
+ 
+{% block content%}
+  {%from "_macro.html" import render_field%}
+
+  <div class="container">
+
+    <a href="/insertarMaestro" class="btn btn-success">
+        <i class="icon-undo icon-white"></i> Nuevo
+    </a>
+    
+
+   <div class="row">
+       
+       <h2>Alumnos IDGS801</h2>
+       <table  clas="table table-striped table-bordered">
+        <thead>
+            <tr class="tr-head">
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Correo</th>
+                <th>Nombre de la Materia</th>
+                <th>Eliminar</th>
+                <th>Modificar</th>
+               
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for res in resultset %}
+            <tr>
+                <td>{{ res[1] }}</td>
+                <td>{{ res[2] }}</td>
+                <td>{{ res[3] }}</td>
+                <td>{{ res[4] }}</td>
+                <td><a href="eliminar2?id={{res[0]}}" class="btn btn-danger">
+                        <i class="icon-remove icon_white"></i>Eliminar</a> </td>
+                <td><a href="modificar2?id={{res[0]}}" class="btn btn-warning">
+                        <i class="icon-pencil icon_white"></i>Modificar</a> </td>
+
+            </tr>
+            {%endfor%}
+        </tbody>
+       </table>
+   </div>
+  </div>
+
+{% endblock %}

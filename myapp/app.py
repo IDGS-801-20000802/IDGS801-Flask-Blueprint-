@@ -1,23 +1,36 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, redirect, render_template
 from flask import request
-from flask import redirect
 from flask import url_for
+import forms
+
+from flask import jsonify
+from config import DevelopmentConfig
+from flask_wtf.csrf import CSRFProtect
+from models  import db
+from models import Alumnos, Maestros
 
 from Alumnos.routes import alumnos
-from Directivos.routes import dir
 from Maestros.routes import maestros
 
 app=Flask(__name__)
-app.config['DEBUG']=True
+app.config.from_object(DevelopmentConfig)
+csrf=CSRFProtect()
 
-@app.route("/", methods=['GET'])
+
+@app.route("/")
 def home():
-    return jsonify ({'Datos':'Hola'})
+   return render_template('layout.html')
 
 app.register_blueprint(alumnos)
-app.register_blueprint(dir)
 app.register_blueprint(maestros)
 
-if __name__=='__main__':
-    app.run()
+
+if __name__ =='__main__':
+    csrf.init_app(app)
+    db.init_app(app)
+    with app.app_context():
+        db.create_all()
+        
+    app.run(port=3000)
+
 
